@@ -304,34 +304,42 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(15,23,42,0.35)', backdropFilter: 'blur(6px)' }}
+            transition={{ duration: 0.2 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,15,26,0.45)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
             onClick={() => setMobileOpen(false)}
           >
-            <motion.aside
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 32, stiffness: 340 }}
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'absolute',
-                top: 0,
+                bottom: 0,
+                left: 0,
                 right: 0,
-                width: 'min(320px, 88vw)',
-                height: '100%',
                 background: 'var(--bg-card)',
-                borderLeft: '1px solid var(--border-light)',
-                padding: '24px',
+                borderRadius: '22px 22px 0 0',
+                paddingTop: '12px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                paddingBottom: 'max(28px, env(safe-area-inset-bottom, 28px))',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '8px',
-                boxShadow: 'var(--shadow-xl)',
+                boxShadow: '0 -8px 48px rgba(0,0,0,0.14)',
+                maxHeight: '82vh',
+                overflowY: 'auto',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>Menu</span>
-                <button type="button" onClick={() => setMobileOpen(false)} style={{ border: 'none', background: 'var(--bg-input)', width: '36px', height: '36px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <X size={18} />
+              <div style={{ width: '36px', height: '4px', borderRadius: '2px', background: 'var(--border-medium)', margin: '0 auto 18px' }} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Brain size={20} style={{ color: '#818cf8' }} />
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--text-main)' }}>BrainMate</span>
+                </div>
+                <button type="button" onClick={() => setMobileOpen(false)} style={{ border: 'none', background: 'var(--bg-input)', width: '32px', height: '32px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', flexShrink: 0 }}>
+                  <X size={16} />
                 </button>
               </div>
               {[
@@ -351,58 +359,63 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '14px 16px',
-                    borderRadius: '14px',
-                    border: '1px solid var(--border-light)',
-                    background: 'var(--bg-main)',
+                    padding: '14px 2px',
+                    border: 'none',
+                    borderBottom: '1px solid var(--border-light)',
+                    background: 'transparent',
                     color: 'var(--text-main)',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     fontWeight: 500,
                     cursor: 'pointer',
                     fontFamily: 'var(--font-sans)',
+                    width: '100%',
+                    textAlign: 'left',
                   }}
                 >
                   {label}
-                  <ChevronRight size={16} color="var(--text-muted)" />
+                  <ChevronRight size={15} color="var(--text-muted)" />
                 </button>
               ))}
-              <button
-                type="button"
-                onClick={() => { setMobileOpen(false); onLogin?.(); }}
-                style={{
-                  marginTop: '8px',
-                  padding: '14px 16px',
-                  borderRadius: '14px',
-                  border: '1px solid var(--border-light)',
-                  background: 'var(--bg-main)',
-                  color: 'var(--text-main)',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '14px',
-                }}
-              >
-                Log in
-              </button>
-              <motion.button
-                type="button"
-                whileTap={{ scale: 0.98 }}
-                onClick={() => navTo('upload-section')}
-                style={{
-                  marginTop: '12px',
-                  padding: '14px',
-                  borderRadius: '14px',
-                  border: 'none',
-                  background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
-                  color: '#fff',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-sans)',
-                }}
-              >
-                Get started
-              </motion.button>
-            </motion.aside>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                <button
+                  type="button"
+                  onClick={() => { setMobileOpen(false); onLogin?.(); }}
+                  style={{
+                    flex: 1,
+                    padding: '13px',
+                    borderRadius: '14px',
+                    border: '1px solid var(--border-light)',
+                    background: 'transparent',
+                    color: 'var(--text-main)',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '14px',
+                  }}
+                >
+                  Log in
+                </button>
+                <motion.button
+                  type="button"
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navTo('upload-section')}
+                  style={{
+                    flex: 2,
+                    padding: '13px',
+                    borderRadius: '14px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                    color: '#fff',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '14px',
+                  }}
+                >
+                  Get started
+                </motion.button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -414,7 +427,7 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
         spaced
         className="lp-hero-section"
         style={{
-          minHeight: 'calc(100dvh - 64px)',
+          minHeight: 'clamp(520px, 100dvh - 54px, 100dvh - 54px)',
           boxSizing: 'border-box',
         }}
       >

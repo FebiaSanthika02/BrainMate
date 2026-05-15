@@ -83,25 +83,25 @@ const NavItem = ({ icon, label, active, onClick }) => (
 
 const StatCard = ({ label, value, sub, icon, accent }) => (
   <div
-    className="neo-subtle"
+    className="neo-subtle dash-stat-card"
     style={{
-      padding: '20px 20px 18px',
+      padding: 'var(--dash-card-pad)',
       borderRadius: 'var(--radius-2xl)',
       border: '1px solid var(--border-light)',
       background: 'var(--bg-card)',
     }}
   >
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
-      <div>
-        <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{label}</p>
-        <p style={{ fontSize: '26px', fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}>{value}</p>
-        {sub && <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px' }}>{sub}</p>}
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
+      <div style={{ minWidth: 0 }}>
+        <p style={{ fontSize: 'clamp(10px, 2.2vw, 12px)', color: 'var(--text-muted)', marginBottom: '5px', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{label}</p>
+        <p style={{ fontSize: 'clamp(18px, 4.5vw, 26px)', fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}>{value}</p>
+        {sub && <p style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: 'var(--text-muted)', marginTop: '4px' }}>{sub}</p>}
       </div>
       <div
         style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: '14px',
+          width: 'clamp(34px, 8vw, 44px)',
+          height: 'clamp(34px, 8vw, 44px)',
+          borderRadius: '12px',
           background: `color-mix(in srgb, ${accent} 14%, transparent)`,
           border: `1px solid color-mix(in srgb, ${accent} 22%, transparent)`,
           display: 'flex',
@@ -612,26 +612,26 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme, initialMen
                     <motion.button
                       key={f.id}
                       type="button"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.99 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => setActiveTab(f.id)}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '11px',
-                        padding: '14px 16px',
-                        borderRadius: 'var(--radius-2xl)',
+                        gap: '8px',
+                        padding: 'clamp(10px, 2.5vw, 14px) clamp(10px, 2.5vw, 16px)',
+                        borderRadius: 'var(--radius-xl)',
                         border: `1px solid ${activeTab === f.id ? f.color : 'var(--border-light)'}`,
                         background: activeTab === f.id ? f.bg : 'var(--bg-card)',
                         cursor: 'pointer',
                         textAlign: 'left',
                         fontFamily: 'var(--font-sans)',
-                        boxShadow: activeTab === f.id ? `0 8px 24px color-mix(in srgb, ${f.color} 18%, transparent)` : 'var(--shadow-sm)',
+                        boxShadow: activeTab === f.id ? `0 6px 20px color-mix(in srgb, ${f.color} 18%, transparent)` : 'var(--shadow-sm)',
                         transition: 'border-color 0.2s, box-shadow 0.2s',
+                        minWidth: 0,
                       }}
                     >
-                      <div style={{ width: '36px', height: '36px', borderRadius: '12px', background: f.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: f.color, flexShrink: 0 }}>{f.icon}</div>
-                      <span style={{ fontWeight: 600, fontSize: '13px', color: activeTab === f.id ? f.color : 'var(--text-main)' }}>{f.title}</span>
+                      <div style={{ width: 'clamp(28px, 6vw, 34px)', height: 'clamp(28px, 6vw, 34px)', borderRadius: '10px', background: f.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: f.color, flexShrink: 0 }}>{f.icon}</div>
+                      <span style={{ fontWeight: 600, fontSize: 'clamp(12px, 2.5vw, 13px)', color: activeTab === f.id ? f.color : 'var(--text-main)', whiteSpace: 'nowrap' }}>{f.title}</span>
                     </motion.button>
                   ))}
                 </div>

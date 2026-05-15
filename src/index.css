@@ -314,34 +314,49 @@ body {
 
 /* Landing layout */
 :root {
-  --lp-pad-x: 20px;
-  --lp-gap: 16px;
-  --lp-gap-lg: 24px;
-  --lp-gap-xl: 40px;
+  --lp-pad-x: 16px;
+  --lp-gap: 10px;
+  --lp-gap-lg: 12px;
+  --lp-gap-xl: 24px;
   --lp-max-w: 1440px;
-  --lp-section-y: var(--space-8);
+  --lp-section-y: var(--space-6);
+  --lp-card-pad: 14px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --lp-pad-x: 18px;
+    --lp-gap: 12px;
+    --lp-gap-lg: 14px;
+    --lp-card-pad: 16px;
+    --lp-section-y: var(--space-6);
+  }
 }
 
 @media (min-width: 640px) {
   :root {
     --lp-pad-x: 28px;
-    --lp-gap: 18px;
-    --lp-gap-lg: 28px;
-    --lp-card-pad: 24px;
+    --lp-gap: 16px;
+    --lp-gap-lg: 20px;
+    --lp-card-pad: 20px;
+    --lp-section-y: var(--space-7);
   }
 }
 
 @media (min-width: 768px) {
   :root {
-    --lp-gap: 20px;
+    --lp-gap: 18px;
+    --lp-gap-lg: 24px;
+    --lp-card-pad: 22px;
+    --lp-section-y: var(--space-8);
   }
 }
 
 @media (min-width: 1024px) {
   :root {
     --lp-pad-x: 40px;
-    --lp-gap: 24px;
-    --lp-gap-lg: 32px;
+    --lp-gap: 22px;
+    --lp-gap-lg: 30px;
     --lp-gap-xl: 48px;
     --lp-max-w: 1480px;
     --lp-section-y: var(--space-9);
@@ -373,8 +388,8 @@ body {
 }
 
 .lp-hero-section.lp-section--spaced {
-  padding-top: clamp(var(--space-4), 3vh, var(--space-7));
-  padding-bottom: clamp(var(--space-4), 2vh, var(--space-6));
+  padding-top: clamp(var(--space-3), 2.5vh, var(--space-6));
+  padding-bottom: clamp(var(--space-3), 2vh, var(--space-5));
 }
 
 .lp-section-header {
@@ -668,19 +683,55 @@ body {
 }
 @media (max-width: 640px) {
   #hero h1 {
-    font-size: clamp(1.75rem, 8vw, 2.25rem) !important;
+    font-size: clamp(1.65rem, 7.5vw, 2.1rem) !important;
   }
   #hero .lp-stats-grid {
-    gap: var(--space-3);
+    gap: var(--space-2);
+  }
+  #hero .lp-hero-grid {
+    gap: var(--space-5);
   }
 
   .lp-section--spaced {
-    padding-top: var(--space-7);
-    padding-bottom: var(--space-7);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
   }
 
   .lp-section-header {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
+  }
+
+  .lp-section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .lp-section-header p {
+    font-size: 13px;
+  }
+
+  .lp-split-grid {
+    gap: var(--space-3);
+  }
+
+  .lp-card-grid {
+    gap: var(--space-2);
+  }
+
+  .lp-card-grid--3,
+  .lp-card-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 479px) {
+  .lp-section--spaced {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  .lp-nav-inner {
+    min-height: 54px;
+    padding: 6px 0;
   }
 }
 
@@ -1717,24 +1768,36 @@ input[type="text"]:focus {
 
 /* ── DASHBOARD RESPONSIVE ───────────────────────────── */
 :root {
-  --dash-pad-x: 16px;
-  --dash-pad-y: 16px;
-  --dash-gap: 14px;
-  --dash-gap-lg: 24px;
-  --dash-section-gap: 24px;
-  --dash-card-pad: 20px;
-  --dash-header-h: 56px;
+  --dash-pad-x: 12px;
+  --dash-pad-y: 12px;
+  --dash-gap: 10px;
+  --dash-gap-lg: 14px;
+  --dash-section-gap: 16px;
+  --dash-card-pad: 14px;
+  --dash-header-h: 52px;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --dash-pad-x: 14px;
+    --dash-pad-y: 14px;
+    --dash-gap: 12px;
+    --dash-gap-lg: 16px;
+    --dash-section-gap: 18px;
+    --dash-card-pad: 16px;
+    --dash-header-h: 54px;
+  }
 }
 
 @media (min-width: 640px) {
   :root {
     --dash-pad-x: 20px;
-    --dash-pad-y: 20px;
+    --dash-pad-y: 18px;
     --dash-gap: 16px;
-    --dash-gap-lg: 26px;
-    --dash-section-gap: 28px;
-    --dash-card-pad: 22px;
-    --dash-header-h: 60px;
+    --dash-gap-lg: 22px;
+    --dash-section-gap: 24px;
+    --dash-card-pad: 20px;
+    --dash-header-h: 58px;
   }
 }
 
@@ -1959,11 +2022,17 @@ input[type="text"]:focus {
 
 .dash-section-head h1 {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-size: clamp(1.1rem, 2.2vw, 1.65rem);
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.03em;
   line-height: 1.25;
+}
+
+.dash-section-head p {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: var(--text-muted);
+  margin-top: 4px;
 }
 
 .dash-stats-grid {
@@ -2152,7 +2221,7 @@ input[type="text"]:focus {
 /* Mobile phone */
 @media (max-width: 639px) {
   .dash-search {
-    padding: 8px 12px;
+    padding: 7px 11px;
   }
 
   .dash-search input {
@@ -2168,9 +2237,42 @@ input[type="text"]:focus {
   }
 
   .dash-profile-btn {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     font-size: 13px;
+    border-radius: 12px;
+  }
+
+  .dash-icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+
+  .dash-menu-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+
+  .dash-stats-grid,
+  .dash-analytics-grid,
+  .dash-featured-grid,
+  .dash-bottom-grid {
+    margin-bottom: var(--dash-gap);
+  }
+
+  .dash-study-hero {
+    padding: 14px 14px;
+    gap: 10px;
+  }
+
+  .dash-study-panel {
+    min-height: min(380px, 65vh);
+  }
+
+  .dash-card-pad {
+    padding: var(--dash-card-pad);
   }
 }
 
@@ -2180,11 +2282,47 @@ input[type="text"]:focus {
   }
 
   .dash-header-start {
-    gap: 8px;
+    gap: 6px;
+  }
+
+  .dash-study-tabs {
+    gap: 6px;
   }
 }
 
 .dash-view-narrow {
   width: 100%;
   max-width: 100%;
+}
+
+/* Mobile typography helpers */
+@media (max-width: 639px) {
+  .dash-page h2 {
+    font-size: clamp(14px, 3.5vw, 17px);
+  }
+
+  .dash-page h3 {
+    font-size: clamp(13px, 3vw, 15px);
+  }
+
+  .dash-page p,
+  .dash-page span {
+    font-size: clamp(12px, 2.8vw, 14px);
+  }
+}
+
+/* Landing page mobile font helpers */
+@media (max-width: 639px) {
+  .lp-card h2,
+  .lp-card h3 {
+    font-size: clamp(14px, 3.8vw, 17px) !important;
+  }
+
+  .lp-card p {
+    font-size: clamp(12px, 3.2vw, 14px) !important;
+  }
+
+  .lp-card span {
+    font-size: clamp(11px, 2.8vw, 13px);
+  }
 }
