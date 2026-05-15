@@ -32,11 +32,11 @@ const QuizView = ({ text }) => {
 
   const handleAnswer = (index) => {
     if (selectedAnswer !== null) return;
-    
+
     setSelectedAnswer(index);
     const correct = index === questions[currentQuestion].correct;
     setIsCorrect(correct);
-    
+
     if (correct) {
       setScore(score + 1);
     }
@@ -69,7 +69,7 @@ const QuizView = ({ text }) => {
   if (loading) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '200px', gap: '15px' }}>
-        <Loader2 className="animate-spin" size={40} color="var(--color-yellow)" style={{ animation: 'spin 1s linear infinite' }} />
+        <Loader2 className="animate-spin" size={40} color="var(--color-green)" style={{ animation: 'spin 1s linear infinite' }} />
         <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-muted)' }}>AI is generating questions...</p>
       </div>
     );
@@ -87,12 +87,12 @@ const QuizView = ({ text }) => {
   if (isFinished) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', height: '100%', padding: '40px 0' }}>
-        <div style={{ width: '80px', height: '80px', backgroundColor: 'rgba(255, 176, 0, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-          <CheckCircle2 color="var(--color-yellow)" size={48} />
+        <div style={{ width: '80px', height: '80px', backgroundColor: 'rgba(46, 182, 125, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+          <CheckCircle2 color="var(--color-green)" size={48} />
         </div>
         <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '10px', color: 'var(--text-main)' }}>Quiz Completed!</h3>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '16px' }}>Your Score: <span style={{ color: 'var(--color-yellow)', fontWeight: 800 }}>{score} / {questions.length}</span></p>
-        <button onClick={resetQuiz} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '24px', backgroundColor: 'var(--color-yellow)', color: '#452a09', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '15px' }}>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '16px' }}>Your Score: <span style={{ color: 'var(--color-green)', fontWeight: 800 }}>{score} / {questions.length}</span></p>
+        <button onClick={resetQuiz} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '24px', backgroundColor: 'var(--color-green)', color: 'white', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '15px' }}>
           <RotateCcw size={18} /> Retry
         </button>
       </div>
@@ -118,21 +118,21 @@ const QuizView = ({ text }) => {
             let borderColor = 'var(--border-heavy)';
             let bgColor = 'var(--btn-bg)';
             let textColor = 'var(--text-main)';
-            
+
             if (selectedAnswer === i) {
               if (isCorrect) {
-                borderColor = 'var(--color-yellow)';
-                bgColor = 'rgba(255, 176, 0, 0.1)';
-                textColor = 'var(--color-yellow)';
+                borderColor = 'var(--color-green)';
+                bgColor = 'rgba(46, 182, 125, 0.1)';
+                textColor = 'var(--color-green)';
               } else {
                 borderColor = '#ef4444';
                 bgColor = 'rgba(239, 68, 68, 0.1)';
                 textColor = '#ef4444';
               }
             } else if (selectedAnswer !== null && i === questions[currentQuestion].correct) {
-              borderColor = 'var(--color-yellow)';
-              bgColor = 'rgba(255, 176, 0, 0.1)';
-              textColor = 'var(--color-yellow)';
+              borderColor = 'var(--color-green)';
+              bgColor = 'rgba(46, 182, 125, 0.1)';
+              textColor = 'var(--color-green)';
             }
 
             return (
@@ -168,10 +168,10 @@ const QuizView = ({ text }) => {
               >
                 {option}
                 {selectedAnswer === i && (
-                  isCorrect ? <CheckCircle2 size={20} color="var(--color-yellow)" /> : <XCircle size={20} color="#ef4444" />
+                  isCorrect ? <CheckCircle2 size={20} color="var(--color-green)" /> : <XCircle size={20} color="#ef4444" />
                 )}
                 {selectedAnswer !== null && i === questions[currentQuestion].correct && i !== selectedAnswer && (
-                  <CheckCircle2 size={20} color="var(--color-yellow)" />
+                  <CheckCircle2 size={20} color="var(--color-green)" />
                 )}
               </button>
             )
@@ -181,7 +181,7 @@ const QuizView = ({ text }) => {
 
       {selectedAnswer !== null && (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={nextQuestion} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '24px', backgroundColor: 'var(--color-yellow)', color: '#452a09', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '15px' }}>
+          <button onClick={nextQuestion} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '24px', backgroundColor: 'var(--color-green)', color: 'white', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '15px' }}>
             Next <ArrowRight size={18} />
           </button>
         </div>

@@ -44,7 +44,7 @@ const FlashcardView = ({ text }) => {
   if (loading) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '200px', gap: '15px' }}>
-        <Loader2 className="animate-spin" size={40} color="var(--color-green)" style={{ animation: 'spin 1s linear infinite' }} />
+        <Loader2 className="animate-spin" size={40} color="var(--color-yellow)" style={{ animation: 'spin 1s linear infinite' }} />
         <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-muted)' }}>AI is preparing your flashcards...</p>
       </div>
     );
@@ -63,7 +63,7 @@ const FlashcardView = ({ text }) => {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', paddingBottom: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '40px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-main)' }}>
-          <Layers color="var(--color-green)" size={20} />
+          <Layers color="var(--color-yellow)" size={20} />
           Flashcards AI
         </h3>
         <span style={{ fontSize: '13px', fontWeight: 700, padding: '6px 16px', backgroundColor: 'var(--btn-bg)', borderRadius: '20px', color: 'var(--text-muted)' }}>
@@ -79,16 +79,16 @@ const FlashcardView = ({ text }) => {
           transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
         >
           {/* Front */}
-          <div 
-            style={{ 
-              position: 'absolute', inset: 0, width: '100%', height: '100%', 
-              backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-heavy)', borderRadius: '30px', 
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
+          <div
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%',
+              backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-heavy)', borderRadius: '30px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               padding: '30px', textAlign: 'center', backfaceVisibility: 'hidden', backdropFilter: 'blur(10px)',
               boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
             }}
           >
-            <span style={{ color: 'var(--color-green)', fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '20px' }}>Question</span>
+            <span style={{ color: 'var(--color-yellow)', fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '20px' }}>Question</span>
             <p style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1.4 }}>{flashcards[currentIndex]?.front}</p>
             <div style={{ marginTop: 'auto', color: 'var(--text-muted)', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <RefreshCw size={14} /> Click to flip
@@ -96,35 +96,35 @@ const FlashcardView = ({ text }) => {
           </div>
 
           {/* Back */}
-          <div 
-            style={{ 
-              position: 'absolute', inset: 0, width: '100%', height: '100%', 
-              backgroundColor: 'rgba(0, 230, 118, 0.1)', border: '1px solid var(--color-green)', borderRadius: '30px', 
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
+          <div
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%',
+              backgroundColor: 'rgba(236, 178, 46, 0.1)', border: '1px solid var(--color-yellow)', borderRadius: '30px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               padding: '30px', textAlign: 'center', backfaceVisibility: 'hidden', transform: 'rotateY(180deg)',
-              boxShadow: '0 0 30px rgba(0, 230, 118, 0.1)'
+              boxShadow: '0 0 30px rgba(236, 178, 46, 0.1)'
             }}
           >
-            <span style={{ color: 'var(--color-green)', fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '20px' }}>Answer</span>
+            <span style={{ color: 'var(--color-yellow)', fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '20px' }}>Answer</span>
             <p style={{ fontSize: '18px', lineHeight: '1.6', color: 'var(--text-dark)', fontWeight: 600 }}>{flashcards[currentIndex]?.back}</p>
           </div>
         </motion.div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '40px' }}>
-        <button 
+        <button
           onClick={(e) => { e.stopPropagation(); handlePrev(); }}
           style={{ padding: '14px', borderRadius: '50%', backgroundColor: 'var(--btn-bg)', border: '1px solid var(--border-heavy)', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
         >
           <ChevronLeft size={24} />
         </button>
-        <button 
+        <button
           onClick={(e) => { e.stopPropagation(); setIsFlipped(!isFlipped); }}
-          style={{ padding: '12px 30px', borderRadius: '30px', backgroundColor: 'var(--color-green)', color: '#003318', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '16px' }}
+          style={{ padding: '12px 30px', borderRadius: '30px', backgroundColor: 'var(--color-yellow)', color: '#452a09', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: '16px' }}
         >
           Flip Card
         </button>
-        <button 
+        <button
           onClick={(e) => { e.stopPropagation(); handleNext(); }}
           style={{ padding: '14px', borderRadius: '50%', backgroundColor: 'var(--btn-bg)', border: '1px solid var(--border-heavy)', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
         >

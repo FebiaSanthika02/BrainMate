@@ -2,15 +2,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-// Initialize the Google Generative AI SDK
 const genAI = new GoogleGenerativeAI(API_KEY);
-
-// Use gemini-flash-latest as it is the supported model for this specific API key
 const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
 async function callGemini(prompt) {
   if (!API_KEY || API_KEY === 'your_api_key_here') {
-    throw new Error("API Key Gemini tidak ditemukan. Harap isi VITE_GEMINI_API_KEY di file .env");
+    throw new Error("Gemini API key not found. Please set VITE_GEMINI_API_KEY in your .env file.");
   }
 
   try {
@@ -19,71 +16,70 @@ async function callGemini(prompt) {
     return response.text();
   } catch (error) {
     console.error("Gemini API Error:", error);
-    
-    // Check if it's a rate limit error (429)
+
     if (error.message && (error.message.includes("429") || error.message.includes("Quota exceeded") || error.message.includes("rate limit"))) {
-      throw new Error("Tunggu sebentar! 🛑 Kuota gratis API Google membatasi 5 interaksi per menit. Mohon tunggu sekitar 30-60 detik sebelum menekan tombol lagi.");
+      throw new Error("Please wait a moment! The free Google API quota allows about 5 requests per minute. Wait 30–60 seconds before trying again.");
     }
-    
-    throw new Error(error.message || "Gagal menghubungi AI");
+
+    throw new Error(error.message || "Failed to reach AI");
   }
 }
 
 export async function getSummary(content) {
-  const prompt = `Buatkan rangkuman yang rapi dan mendalam dari materi berikut dalam Bahasa Indonesia. Gunakan format Markdown dengan heading, bullet points, dan penekanan pada konsep kunci. \n\nMateri: \n${content.substring(0, 30000)}`;
+  const prompt = `Create a clear, in-depth summary of the following material in English. Use Markdown with headings, bullet points, and emphasis on key concepts.\n\nMaterial:\n${content.substring(0, 30000)}`;
   return await callGemini(prompt);
 }
 
 export async function getQuiz(content) {
-  const prompt = `Berdasarkan materi berikut, buatkan 5 soal pilihan ganda dalam Bahasa Indonesia. 
-  Kembalikan HANYA dalam format JSON murni (array of objects) seperti ini tanpa tambahan teks lain:
+  const prompt = `Based on the material below, create 5 multiple-choice questions in English.
+  Return ONLY valid JSON (array of objects) with no extra text:
   [
     { "question": "...", "options": ["...", "...", "...", "..."], "correct": 0 },
     ...
   ]
-  \n\nMateri: \n${content.substring(0, 30000)}`;
-  
+  \n\nMaterial:\n${content.substring(0, 30000)}`;
+
   const response = await callGemini(prompt);
   try {
     const jsonMatch = response.match(/\[[\s\S]*\]/);
     return JSON.parse(jsonMatch ? jsonMatch[0] : response);
-  } catch (e) {
-    throw new Error("Gagal membaca format kuis dari AI. Coba lagi.");
+  } catch {
+    throw new Error("Could not parse quiz format from AI. Please try again.");
   }
 }
 
 export async function getFlashcards(content) {
-  const prompt = `Berdasarkan materi berikut, buatkan 8 flashcards untuk membantu hafalan. 
-  Kembalikan HANYA dalam format JSON murni (array of objects) seperti ini tanpa tambahan teks lain:
+  const prompt = `Based on the material below, create 8 flashcards for memorization in English.
+  Return ONLY valid JSON (array of objects) with no extra text:
   [
-    { "front": "Istilah/Pertanyaan", "back": "Penjelasan/Jawaban singkat" },
+    { "front": "Term/Question", "back": "Short explanation/Answer" },
     ...
   ]
-  \n\nMateri: \n${content.substring(0, 30000)}`;
-  
+  \n\nMaterial:\n${content.substring(0, 30000)}`;
+
   const response = await callGemini(prompt);
   try {
     const jsonMatch = response.match(/\[[\s\S]*\]/);
     return JSON.parse(jsonMatch ? jsonMatch[0] : response);
-  } catch (e) {
-    throw new Error("Gagal membaca format flashcard dari AI. Coba lagi.");
+  } catch {
+    throw new Error("Could not parse flashcard format from AI. Please try again.");
   }
 }
 
 export async function getChatResponse(content, history, userMessage) {
   const historyText = history.map(m => `${m.role}: ${m.text}`).join('\n');
-  const prompt = `Anda adalah asisten belajar interaktif yang membantu mahasiswa memahami materi dokumen.
-  Jawablah dengan ramah, informatif, dan langsung ke intinya.
+  const prompt = `You are an interactive study assistant helping a student understand document material.
+  Answer in a friendly, informative, and concise way in English.
 
-  Context Dokumen: 
+  Document context:
   ${content.substring(0, 15000)}
 
-  Histori Chat: 
+  Chat history:
   ${historyText}
 
-  Pertanyaan Mahasiswa: ${userMessage}
-  
-  Berikan jawaban Anda sekarang:`;
-  
+  Student question: ${userMessage}
+
+  Your answer:`;
+
   return await callGemini(prompt);
 }
