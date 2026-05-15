@@ -304,86 +304,102 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,15,26,0.45)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+            transition={{ duration: 0.22 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(10,15,26,0.38)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
             onClick={() => setMobileOpen(false)}
           >
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 32, stiffness: 340 }}
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'absolute',
-                bottom: 0,
-                left: 0,
+                top: 0,
                 right: 0,
+                bottom: 0,
+                width: 'min(300px, 82vw)',
                 background: 'var(--bg-card)',
-                borderRadius: '22px 22px 0 0',
-                paddingTop: '12px',
-                paddingLeft: '20px',
-                paddingRight: '20px',
-                paddingBottom: 'max(28px, env(safe-area-inset-bottom, 28px))',
+                borderLeft: '1px solid var(--border-light)',
                 display: 'flex',
                 flexDirection: 'column',
-                boxShadow: '0 -8px 48px rgba(0,0,0,0.14)',
-                maxHeight: '82vh',
+                padding: '20px 20px',
+                paddingBottom: 'max(24px, env(safe-area-inset-bottom, 24px))',
+                boxShadow: '-8px 0 40px rgba(0,0,0,0.12)',
                 overflowY: 'auto',
               }}
             >
-              <div style={{ width: '36px', height: '4px', borderRadius: '2px', background: 'var(--border-medium)', margin: '0 auto 18px' }} />
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Brain size={20} style={{ color: '#818cf8' }} />
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--text-main)' }}>BrainMate</span>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'var(--bg-input)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Brain size={18} style={{ color: '#818cf8' }} />
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--text-main)', letterSpacing: '-0.02em' }}>BrainMate</span>
                 </div>
-                <button type="button" onClick={() => setMobileOpen(false)} style={{ border: 'none', background: 'var(--bg-input)', width: '32px', height: '32px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', flexShrink: 0 }}>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  style={{ border: 'none', background: 'var(--bg-input)', width: '32px', height: '32px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', flexShrink: 0 }}
+                >
                   <X size={16} />
                 </button>
               </div>
-              {[
-                ['Featured courses', 'courses'],
-                ['Study progress', 'progress'],
-                ['Leaderboard', 'leaderboard'],
-                ['Daily streak', 'streak'],
-                ['AI assistant', 'ai-assistant'],
-                ['Planner', 'planner'],
-                ['Upload PDF', 'upload-section'],
-              ].map(([label, id]) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => navTo(id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '14px 2px',
-                    border: 'none',
-                    borderBottom: '1px solid var(--border-light)',
-                    background: 'transparent',
-                    color: 'var(--text-main)',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-sans)',
-                    width: '100%',
-                    textAlign: 'left',
-                  }}
-                >
-                  {label}
-                  <ChevronRight size={15} color="var(--text-muted)" />
-                </button>
-              ))}
-              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+
+              {/* Nav items */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                {[
+                  ['Featured courses', 'courses'],
+                  ['Study progress', 'progress'],
+                  ['Leaderboard', 'leaderboard'],
+                  ['Daily streak', 'streak'],
+                  ['AI assistant', 'ai-assistant'],
+                  ['Planner', 'planner'],
+                  ['Upload PDF', 'upload-section'],
+                ].map(([label, id]) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => navTo(id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '11px 12px',
+                      borderRadius: '12px',
+                      border: 'none',
+                      background: 'transparent',
+                      color: 'var(--text-secondary)',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-sans)',
+                      width: '100%',
+                      textAlign: 'left',
+                      transition: 'background 0.15s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-input)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    {label}
+                    <ChevronRight size={14} color="var(--text-muted)" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div style={{ height: '1px', background: 'var(--border-light)', margin: '16px 0' }} />
+
+              {/* Actions */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <button
                   type="button"
                   onClick={() => { setMobileOpen(false); onLogin?.(); }}
                   style={{
-                    flex: 1,
-                    padding: '13px',
-                    borderRadius: '14px',
+                    width: '100%',
+                    padding: '12px',
+                    borderRadius: '12px',
                     border: '1px solid var(--border-light)',
                     background: 'transparent',
                     color: 'var(--text-main)',
@@ -400,22 +416,22 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navTo('upload-section')}
                   style={{
-                    flex: 2,
-                    padding: '13px',
-                    borderRadius: '14px',
+                    width: '100%',
+                    padding: '12px',
+                    borderRadius: '12px',
                     border: 'none',
                     background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
                     color: '#fff',
                     fontWeight: 600,
+                    fontSize: '14px',
                     cursor: 'pointer',
                     fontFamily: 'var(--font-sans)',
-                    fontSize: '14px',
                   }}
                 >
                   Get started
                 </motion.button>
               </div>
-            </motion.div>
+            </motion.aside>
           </motion.div>
         )}
       </AnimatePresence>
