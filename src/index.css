@@ -314,23 +314,23 @@ body {
 
 /* Landing layout */
 :root {
-  /* Mobile: section-y=6px so between-section gap = 6+6=12px, matching --lp-gap */
+  /* Mobile: section-y=10px so between-section gap = 10+10=20px, matching --lp-gap */
   --lp-pad-x: 16px;
-  --lp-gap: 12px;
-  --lp-gap-lg: 12px;
-  --lp-gap-xl: 20px;
+  --lp-gap: 20px;
+  --lp-gap-lg: 20px;
+  --lp-gap-xl: 24px;
   --lp-max-w: 1440px;
-  --lp-section-y: 6px;
+  --lp-section-y: 10px;
   --lp-card-pad: 16px;
 }
 
 @media (min-width: 480px) {
   :root {
     --lp-pad-x: 18px;
-    --lp-gap: 12px;
-    --lp-gap-lg: 12px;
+    --lp-gap: 20px;
+    --lp-gap-lg: 20px;
     --lp-card-pad: 16px;
-    --lp-section-y: 6px;
+    --lp-section-y: 10px;
   }
 }
 
