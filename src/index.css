@@ -314,22 +314,23 @@ body {
 
 /* Landing layout */
 :root {
+  /* Mobile: section-y=6px so between-section gap = 6+6=12px, matching --lp-gap */
   --lp-pad-x: 16px;
   --lp-gap: 12px;
-  --lp-gap-lg: 16px;
-  --lp-gap-xl: 24px;
+  --lp-gap-lg: 12px;
+  --lp-gap-xl: 20px;
   --lp-max-w: 1440px;
-  --lp-section-y: 28px;
+  --lp-section-y: 6px;
   --lp-card-pad: 16px;
 }
 
 @media (min-width: 480px) {
   :root {
     --lp-pad-x: 18px;
-    --lp-gap: 14px;
-    --lp-gap-lg: 18px;
-    --lp-card-pad: 18px;
-    --lp-section-y: 32px;
+    --lp-gap: 12px;
+    --lp-gap-lg: 12px;
+    --lp-card-pad: 16px;
+    --lp-section-y: 6px;
   }
 }
 
@@ -337,7 +338,7 @@ body {
   :root {
     --lp-pad-x: 28px;
     --lp-gap: 16px;
-    --lp-gap-lg: 22px;
+    --lp-gap-lg: 20px;
     --lp-card-pad: 20px;
     --lp-section-y: var(--space-7);
   }
@@ -389,7 +390,7 @@ body {
 
 .lp-hero-section.lp-section--spaced {
   padding-top: clamp(var(--space-3), 2.5vh, var(--space-6));
-  padding-bottom: clamp(var(--space-3), 2vh, var(--space-5));
+  padding-bottom: clamp(6px, 2vh, var(--space-5));
 }
 
 .lp-section-header {
@@ -629,7 +630,7 @@ body {
 .lp-split-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--lp-gap-lg);
+  gap: var(--lp-gap);
   width: 100%;
 }
 
@@ -681,19 +682,19 @@ body {
     padding: 12px 8px !important;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   #hero h1 {
     font-size: clamp(1.65rem, 7.5vw, 2.1rem) !important;
   }
   #hero .lp-stats-grid {
-    gap: var(--space-2);
+    gap: var(--lp-gap);
   }
   #hero .lp-hero-grid {
-    gap: var(--space-5);
+    gap: var(--lp-gap-lg);
   }
 
   .lp-section-header {
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--lp-gap);
   }
 
   .lp-section-header h2 {
@@ -704,9 +705,17 @@ body {
     font-size: 13px;
   }
 
+  .lp-card-grid {
+    gap: var(--lp-gap);
+  }
+
   .lp-card-grid--3,
   .lp-card-grid--4 {
     grid-template-columns: 1fr;
+  }
+
+  .lp-stats-grid {
+    gap: var(--lp-gap);
   }
 }
 
