@@ -178,9 +178,9 @@ const staggerItem = {
   animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: dashEase } },
 };
 
-const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
-  const [activeTab, setActiveTab] = useState('summary');
-  const [activeMenu, setActiveMenu] = useState('dasbor');
+const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme, initialMenu = 'dasbor', initialTab = 'summary' }) => {
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [activeMenu, setActiveMenu] = useState(initialMenu);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [mobileSidebar, setMobileSidebar] = useState(false);
@@ -288,22 +288,10 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
   );
 
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%', minWidth: 0, minHeight: 0, background: 'var(--bg-main)', fontFamily: 'var(--font-sans)', overflow: 'hidden', position: 'relative' }}>
+    <motion.div className="dash-root">
 
       {/* Desktop sidebar */}
-      <aside
-        className="dash-sidebar-desktop"
-        style={{
-          width: '256px',
-          flexShrink: 0,
-          background: 'var(--bg-card)',
-          borderRight: '1px solid var(--border-light)',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '18px 14px',
-          overflowY: 'auto',
-        }}
-      >
+      <aside className="dash-sidebar-desktop">
         {sidebarInner}
       </aside>
 
@@ -350,54 +338,30 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
         )}
       </AnimatePresence>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .dash-sidebar-desktop { display: none !important; }
-          .dash-menu-btn { display: flex !important; }
-        }
-        @media (min-width: 901px) {
-          .dash-menu-btn { display: none !important; }
-        }
-      `}</style>
-
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-        <header
-          style={{
-            height: '64px',
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 clamp(16px, 3vw, 28px)',
-            gap: '14px',
-            background: 'color-mix(in srgb, var(--bg-card) 78%, transparent)',
-            backdropFilter: 'blur(20px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-            borderBottom: '1px solid var(--border-light)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
+      <main className="dash-main">
+        <header className="dash-header">
+          <div className="dash-header-start">
             <button
               type="button"
               className="dash-menu-btn"
               onClick={() => setMobileSidebar(true)}
-              style={{ display: 'none', width: '42px', height: '42px', borderRadius: '14px', border: '1px solid var(--border-light)', background: 'var(--bg-card)', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-main)' }}
+              aria-label="Open menu"
             >
               <Menu size={20} />
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--bg-input)', border: '1px solid var(--border-light)', borderRadius: '999px', padding: '10px 16px', flex: 1, maxWidth: '400px', transition: 'box-shadow 0.2s, border-color 0.2s' }}>
+            <div className="dash-search">
               <Search size={16} color="var(--text-muted)" style={{ flexShrink: 0 }} />
-              <input type="search" placeholder="Search materials, tags, or courses…" style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '14px', color: 'var(--text-main)', width: '100%', fontFamily: 'var(--font-sans)' }} />
+              <input type="search" placeholder="Search materials, tags, or courses…" />
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-            <button type="button" onClick={toggleTheme} aria-label="Toggle theme" style={{ width: '40px', height: '40px', borderRadius: '14px', border: '1px solid var(--border-light)', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          <div className="dash-header-actions">
+            <button type="button" className="dash-icon-btn dash-theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
               {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
 
-            <div style={{ position: 'relative' }}>
-              <button type="button" onClick={() => { setShowNotifications(!showNotifications); setShowProfile(false); }} style={{ width: '40px', height: '40px', borderRadius: '14px', border: '1px solid var(--border-light)', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)', position: 'relative' }}>
+            <div style={{ position: 'relative' }} className="dash-notif-wrap">
+              <button type="button" className="dash-icon-btn" onClick={() => { setShowNotifications(!showNotifications); setShowProfile(false); }} style={{ position: 'relative' }}>
                 <Bell size={17} />
                 <span style={{ position: 'absolute', top: '8px', right: '8px', width: '7px', height: '7px', borderRadius: '50%', background: '#f472b6', border: '2px solid var(--bg-card)' }} />
               </button>
@@ -418,7 +382,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
             </div>
 
             <div style={{ position: 'relative' }}>
-              <button type="button" onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }} style={{ width: '40px', height: '40px', borderRadius: '14px', background: 'linear-gradient(145deg, #6366f1, #14b8a6)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, fontSize: '14px', fontFamily: 'var(--font-sans)' }}>
+              <button type="button" className="dash-profile-btn" onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }}>
                 U
               </button>
               <AnimatePresence>
@@ -450,7 +414,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
           <div style={{ position: 'fixed', inset: 0, zIndex: 150 }} onClick={closeOverlays} aria-hidden />
         )}
 
-        <motion.div ref={contentRef} style={{ flex: 1, overflowY: 'auto', padding: 'clamp(16px, 2.5vw, 28px)' }}>
+        <motion.div ref={contentRef} className="dash-content">
           <AnimatePresence mode="wait">
             {activeMenu === 'dasbor' && (
               <motion.div
@@ -459,11 +423,11 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                style={{ width: '100%' }}
+                className="dash-page"
               >
-                <div style={{ marginBottom: 'clamp(20px, 3vw, 28px)' }}>
+                <div className="dash-section-head">
                   <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Overview</p>
-                  <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.35rem, 2.2vw, 1.65rem)', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.03em' }}>Hello — your focus looks balanced today</h1>
+                  <h1>Hello — your focus looks balanced today</h1>
                   <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '6px', maxWidth: '560px', lineHeight: 1.6 }}>Light analytics — enough to choose your next priority without overload.</p>
                 </div>
 
@@ -471,7 +435,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                   variants={staggerContainer}
                   initial="initial"
                   animate="animate"
-                  style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px', marginBottom: '20px' }}
+                  className="dash-stats-grid"
                 >
                   <motion.div variants={staggerItem} style={{ minWidth: 0 }}>
                     <StatCard label="Documents" value="12" sub="3 this week" icon={<BookOpen size={18} />} accent="#6366f1" />
@@ -492,15 +456,9 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.05 }}
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
-                    gap: '14px',
-                    marginBottom: '20px',
-                  }}
                   className="dash-analytics-grid"
                 >
-                  <div style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', padding: '22px', boxShadow: 'var(--shadow-sm)' }}>
+                  <div className="dash-card-pad" style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', boxShadow: 'var(--shadow-sm)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                       <span style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-main)' }}>Focus hours (7 days)</span>
                       <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>+12% vs last week</span>
@@ -523,7 +481,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                       ))}
                     </div>
                   </div>
-                  <div className="neo-subtle" style={{ padding: '22px' }}>
+                  <div className="neo-subtle dash-card-pad">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                       <Bot size={20} style={{ color: '#6366f1' }} />
                       <span style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-main)' }}>AI study assistant</span>
@@ -534,15 +492,10 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                     </button>
                   </div>
                 </motion.div>
-                <style>{`
-                  @media (max-width: 768px) {
-                    .dash-analytics-grid { grid-template-columns: 1fr !important; }
-                  }
-                `}</style>
 
                 {/* Featured + progress row */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', marginBottom: '20px' }}>
-                  <div style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'color-mix(in srgb, var(--bg-card) 88%, transparent)', backdropFilter: 'blur(12px)', padding: '22px', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="dash-featured-grid">
+                  <div className="dash-card-pad" style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'color-mix(in srgb, var(--bg-card) 88%, transparent)', backdropFilter: 'blur(12px)', boxShadow: 'var(--shadow-sm)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                       <h3 style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-main)' }}>Featured courses</h3>
                       <Sparkles size={16} color="var(--text-muted)" />
@@ -563,7 +516,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                     </div>
                   </div>
 
-                  <div style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', padding: '22px', boxShadow: 'var(--shadow-sm)' }}>
+                  <div className="dash-card-pad" style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', boxShadow: 'var(--shadow-sm)' }}>
                     <h3 style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-main)', marginBottom: '16px' }}>Study progress</h3>
                     {[
                       { label: 'Summary', pct: 80, c: '#6366f1' },
@@ -583,7 +536,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+                <div className="dash-bottom-grid">
                   <div style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', padding: '0', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
                     <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Trophy size={17} style={{ color: '#eab308' }} />
@@ -601,7 +554,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                     </div>
                   </div>
 
-                  <div className="neo-subtle" style={{ padding: '22px' }}>
+                  <div className="neo-subtle dash-card-pad">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                       <Flame size={20} style={{ color: '#d97706' }} />
                       <h3 style={{ fontWeight: 700, fontSize: '14px' }}>Daily streak</h3>
@@ -614,7 +567,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                     </div>
                   </div>
 
-                  <div style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', padding: '22px', boxShadow: 'var(--shadow-sm)' }}>
+                  <div className="dash-card-pad" style={{ borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', background: 'var(--bg-card)', boxShadow: 'var(--shadow-sm)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
                       <CalendarDays size={17} color="var(--text-muted)" />
                       <h3 style={{ fontWeight: 700, fontSize: '14px' }}>Study planner</h3>
@@ -639,23 +592,9 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                style={{ width: '100%' }}
+                className="dash-page"
               >
-                <div
-                  style={{
-                    marginBottom: '20px',
-                    padding: '22px clamp(18px, 3vw, 28px)',
-                    borderRadius: 'var(--radius-2xl)',
-                    border: '1px solid color-mix(in srgb, #6366f1 22%, transparent)',
-                    background: 'linear-gradient(135deg, color-mix(in srgb, #6366f1 18%, var(--bg-card)), color-mix(in srgb, #14b8a6 12%, var(--bg-card)))',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '16px',
-                    boxShadow: '0 16px 40px rgba(79, 70, 229, 0.12)',
-                  }}
-                >
+                <div className="dash-study-hero">
                   <div>
                     <h2 style={{ fontSize: 'clamp(1.1rem, 2vw, 1.35rem)', fontWeight: 700, color: 'var(--text-main)', marginBottom: '6px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>Study room</h2>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)', fontSize: '13px' }}>
@@ -668,7 +607,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px', marginBottom: '18px' }}>
+                <div className="dash-study-tabs">
                   {features.map((f) => (
                     <motion.button
                       key={f.id}
@@ -697,7 +636,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                   ))}
                 </div>
 
-                <div style={{ background: 'var(--bg-card)', borderRadius: 'var(--radius-2xl)', border: '1px solid var(--border-light)', minHeight: '480px', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="dash-study-panel">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeTab}
@@ -705,7 +644,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                       initial="initial"
                       animate="animate"
                       exit="exit"
-                      style={{ minHeight: '420px', padding: 'clamp(16px, 2.5vw, 24px)' }}
+                      className="dash-study-panel-inner"
                     >
                       {activeTab === 'summary' && <SummaryView text={fileText} />}
                       {activeTab === 'quiz' && <QuizView text={fileText} />}
@@ -724,7 +663,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                style={{ maxWidth: '640px', width: '100%' }}
+                className="dash-page"
               >
                 <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, marginBottom: '8px' }}>History</h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '24px' }}>Placeholder — connect a backend to list your documents.</p>
@@ -735,12 +674,12 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
             )}
 
             {activeMenu === 'profile-settings' && (
-              <motion.div key="profile" variants={dashPageVariants} initial="initial" animate="animate" exit="exit" style={{ width: '100%' }}>
+              <motion.div key="profile" variants={dashPageVariants} initial="initial" animate="animate" exit="exit" className="dash-page">
                 <ProfileSettings theme={theme} />
               </motion.div>
             )}
             {activeMenu === 'billing' && (
-              <motion.div key="billing" variants={dashPageVariants} initial="initial" animate="animate" exit="exit" style={{ width: '100%' }}>
+              <motion.div key="billing" variants={dashPageVariants} initial="initial" animate="animate" exit="exit" className="dash-page">
                 <Billing theme={theme} />
               </motion.div>
             )}
@@ -750,6 +689,7 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
 
       <motion.button
         type="button"
+        className="dash-fab"
         aria-label="Open AI tutor"
         whileHover={{ scale: 1.06, y: -2 }}
         whileTap={{ scale: 0.94 }}
@@ -758,12 +698,6 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
           setActiveTab('chat');
         }}
         style={{
-          position: 'fixed',
-          bottom: 'max(24px, env(safe-area-inset-bottom, 0px))',
-          right: 'max(24px, env(safe-area-inset-right, 0px))',
-          width: '56px',
-          height: '56px',
-          borderRadius: '18px',
           background: 'linear-gradient(145deg, color-mix(in srgb, var(--bg-card) 25%, #6366f1), #4c1d95)',
           border: '1px solid color-mix(in srgb, white 22%, transparent)',
           cursor: 'pointer',
@@ -771,13 +705,12 @@ const Dashboard = ({ fileName, fileText, onReset, theme, toggleTheme }) => {
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: '0 16px 40px rgba(79, 70, 229, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
-          zIndex: 300,
           backdropFilter: 'blur(12px)',
         }}
       >
         <MessageSquare size={22} color="white" strokeWidth={2} />
       </motion.button>
-    </div>
+    </motion.div>
   );
 };
 

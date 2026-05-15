@@ -25,9 +25,10 @@ const ProfileSettings = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      style={{ maxWidth: '680px', margin: '0 auto', width: '100%', padding: '4px 0' }}
+      className="dash-page"
+      style={{ width: '100%', maxWidth: '100%', padding: 0 }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px', paddingBottom: '20px', borderBottom: '1px solid var(--border-light)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--dash-section-gap)', paddingBottom: 'var(--space-5)', borderBottom: '1px solid var(--border-light)' }}>
         <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(99,102,241,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <User size={22} color="#6366f1"/>
         </div>
@@ -37,9 +38,9 @@ const ProfileSettings = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="dash-stack">
         {/* Personal Info */}
-        <div style={{ background: 'var(--bg-card)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-sm)' }}>
+        <div className="dash-card">
           <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-main)', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <User size={16} color="#6366f1"/> Personal information
           </h3>
@@ -70,7 +71,7 @@ const ProfileSettings = () => {
         </div>
 
         {/* Security */}
-        <div style={{ background: 'var(--bg-card)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-sm)' }}>
+        <div className="dash-card">
           <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-main)', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Lock size={16} color="#6366f1"/> Security
           </h3>

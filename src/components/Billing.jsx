@@ -8,7 +8,8 @@ const Billing = ({ theme }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="view-container"
-      style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', width: '100%' }}
+      className="dash-page dash-stack"
+      style={{ padding: 0, width: '100%', maxWidth: '100%' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid var(--border-light)' }}>
         <CreditCard size={32} color="var(--primary)" />

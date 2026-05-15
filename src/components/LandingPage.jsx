@@ -26,9 +26,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Section = ({ children, id, className = '', style = {} }) => (
-  <section id={id} className={className} style={{ width: '100%', padding: '0 clamp(16px, 4vw, 40px)', position: 'relative', zIndex: 1, ...style }}>
-    <div style={{ maxWidth: '1120px', margin: '0 auto' }}>{children}</div>
+const Section = ({ children, id, className = '', style = {}, fluid = false, spaced = true }) => (
+  <section id={id} className={`lp-section ${spaced ? 'lp-section--spaced' : ''} ${className}`.trim()} style={style}>
+    <div className={fluid ? 'lp-container lp-container--fluid' : 'lp-container'}>{children}</div>
   </section>
 );
 
@@ -171,24 +171,9 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </AnimatePresence>
 
       <nav
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          width: '100%',
-          minHeight: '64px',
-          padding: '12px clamp(16px, 4vw, 36px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px',
-          background: scrolled ? 'color-mix(in srgb, var(--glass-bg) 92%, transparent)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
-          borderBottom: scrolled ? '1px solid var(--border-light)' : '1px solid transparent',
-          transition: 'background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease',
-        }}
+        className={`lp-nav${scrolled ? ' lp-nav--scrolled' : ''}`}
       >
+        <div className="lp-container lp-nav-inner">
         <button type="button" onClick={() => navTo('hero')} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
           <svg width="0" height="0" style={{ position: 'absolute' }}>
             <defs>
@@ -310,17 +295,8 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             <Menu size={20} />
           </button>
         </div>
+        </div>
       </nav>
-
-      <style>{`
-        @media (max-width: 900px) {
-          .lp-nav-desktop { display: none !important; }
-          .lp-nav-mobile { display: flex !important; }
-        }
-        @media (min-width: 901px) {
-          .lp-nav-mobile { display: none !important; }
-        }
-      `}</style>
 
       <AnimatePresence>
         {mobileOpen && (
@@ -434,22 +410,20 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       {/* Hero + stats — first viewport */}
       <Section
         id="hero"
+        fluid
+        spaced
+        className="lp-hero-section"
         style={{
-          paddingTop: 'clamp(16px, 3vh, 32px)',
-          paddingBottom: 'clamp(12px, 2vh, 24px)',
           minHeight: 'calc(100dvh - 64px)',
           boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          gap: '20px',
         }}
       >
+        <div className="lp-hero-layout">
         <motion.div
+          className="lp-hero-grid"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(24px, 4vw, 40px)', alignItems: 'center', flex: '1 1 auto', minHeight: 0 }}
         >
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}>
             <div
@@ -492,7 +466,7 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
                 powered by context-aware AI
               </span>
             </h1>
-            <p style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', color: 'var(--text-muted)', maxWidth: '480px', lineHeight: 1.75, marginBottom: '24px' }}>
+            <p className="lp-hero-desc" style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '24px' }}>
               One workflow: upload material, get summaries, quizzes, flashcards, and a tutor — without noisy tabs. Built to keep your eyes and mind fresh during long sessions.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
@@ -588,7 +562,6 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.22 }}
-          style={{ flexShrink: 0, width: '100%' }}
         >
           {stats.map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 + i * 0.05 }} style={{ ...cardBase, padding: '18px 12px', textAlign: 'center', minWidth: 0 }}>
@@ -598,22 +571,23 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             </motion.div>
           ))}
         </motion.div>
+        </div>
       </Section>
 
       {/* Featured courses */}
-      <Section id="courses" style={{ paddingBottom: '64px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px', marginBottom: '28px' }}>
+      <Section id="courses">
+        <div className="lp-section-header">
           <div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--text-main)' }}>Featured courses</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginTop: '8px', maxWidth: '520px' }}>Light curation — depth over tile count on screen.</p>
+            <h2>Featured courses</h2>
+            <p>Light curation — depth over tile count on screen.</p>
           </div>
           <button type="button" onClick={() => navTo('upload-section')} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 600, color: '#6366f1', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-sans)' }}>
             Bring your own material <ChevronRight size={16} />
           </button>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
+        <div className="lp-card-grid lp-card-grid--3">
           {featuredCourses.map((c, i) => (
-            <motion.article key={c.title} {...fadeUp} transition={{ delay: i * 0.08 }} whileHover={{ y: -3 }} style={{ ...cardBase, padding: '22px', cursor: 'default', transition: 'box-shadow 0.25s ease, border-color 0.25s ease' }}>
+            <motion.article key={c.title} {...fadeUp} transition={{ delay: i * 0.08 }} whileHover={{ y: -3 }} className="lp-card" style={{ cursor: 'default', transition: 'box-shadow 0.25s ease, border-color 0.25s ease' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                 <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'color-mix(in srgb, #6366f1 10%, transparent)', border: '1px solid color-mix(in srgb, #6366f1 18%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366f1' }}>
                   {c.icon}
@@ -634,9 +608,9 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Progress + streak */}
-      <Section id="progress" style={{ paddingBottom: '64px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
-          <motion.div {...fadeUp} style={{ ...cardBase, padding: '26px', background: 'color-mix(in srgb, var(--bg-card) 88%, transparent)', backdropFilter: 'blur(16px)' }}>
+      <Section id="progress">
+        <div className="lp-split-grid">
+          <motion.div {...fadeUp} className="lp-card" style={{ background: 'color-mix(in srgb, var(--bg-card) 88%, transparent)', backdropFilter: 'blur(16px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700, color: 'var(--text-main)' }}>Study progress</h2>
               <Clock size={18} color="var(--text-muted)" />
@@ -658,7 +632,7 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             ))}
           </motion.div>
 
-          <motion.div id="streak" {...fadeUp} className="neo-subtle" style={{ padding: '26px' }}>
+          <motion.div id="streak" {...fadeUp} className="neo-subtle lp-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'color-mix(in srgb, #f59e0b 14%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Flame size={24} style={{ color: '#d97706' }} />
@@ -695,14 +669,14 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Leaderboard + AI */}
-      <Section id="leaderboard" style={{ paddingBottom: '64px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
-          <motion.div {...fadeUp} style={{ ...cardBase, padding: '0', overflow: 'hidden' }}>
-            <div style={{ padding: '22px 22px 12px', display: 'flex', alignItems: 'center', gap: '10px', borderBottom: '1px solid var(--border-light)' }}>
+      <Section id="leaderboard">
+        <div className="lp-split-grid">
+          <motion.div {...fadeUp} className="lp-card lp-card--flush">
+            <div className="lp-card__head">
               <Trophy size={20} style={{ color: '#eab308' }} />
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700 }}>Leaderboard</h2>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700, margin: 0 }}>Leaderboard</h2>
             </div>
-            <div style={{ padding: '8px 12px 16px' }}>
+            <div className="lp-card__body lp-card__body--rows">
               {leaderboard.map((row) => (
                 <div
                   key={row.rank}
@@ -725,7 +699,7 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
             </div>
           </motion.div>
 
-          <motion.div id="ai-assistant" {...fadeUp} style={{ ...cardBase, padding: '26px', position: 'relative', overflow: 'hidden' }}>
+          <motion.div id="ai-assistant" {...fadeUp} className="lp-card" style={{ position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: '-20%', right: '-15%', width: '180px', height: '180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)', pointerEvents: 'none' }} />
             <div style={{ position: 'relative' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'var(--bg-input)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
@@ -744,8 +718,8 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Study planner */}
-      <Section id="planner" style={{ paddingBottom: '64px' }}>
-        <motion.div {...fadeUp} style={{ ...cardBase, padding: '26px' }}>
+      <Section id="planner">
+        <motion.div {...fadeUp} className="lp-card">
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '22px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <CalendarDays size={20} color="var(--text-muted)" />
@@ -777,10 +751,11 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Upload */}
-      <Section id="upload-section" style={{ paddingBottom: '72px', display: 'flex', justifyContent: 'center' }}>
-        <motion.div {...fadeUp} style={{ width: '100%', maxWidth: '720px', margin: '0 auto' }}>
+      <Section id="upload-section">
+        <motion.div {...fadeUp} className="lp-upload-wrap">
           <div
             {...getRootProps()}
+            className="lp-upload-drop"
             style={{
               border: `1.5px dashed ${isDragActive ? 'color-mix(in srgb, #6366f1 55%, transparent)' : 'var(--border-medium)'}`,
               borderRadius: 'var(--radius-2xl)',
@@ -820,12 +795,14 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Features compact */}
-      <Section style={{ paddingBottom: '64px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '8px', textAlign: 'center' }}>Unified learning flow</h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '32px', fontSize: '15px' }}>One document, many ways to learn — without noisy tabs.</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+      <Section>
+        <div className="lp-section-header lp-section-header--center">
+          <h2>Unified learning flow</h2>
+          <p>One document, many ways to learn — without noisy tabs.</p>
+        </div>
+        <div className="lp-card-grid lp-card-grid--4">
           {features.map((f, i) => (
-            <motion.div key={f.title} {...fadeUp} transition={{ delay: i * 0.06 }} whileHover={{ y: -2 }} style={{ ...cardBase, padding: '22px' }}>
+            <motion.div key={f.title} {...fadeUp} transition={{ delay: i * 0.06 }} whileHover={{ y: -2 }} className="lp-card">
               <div style={{ width: '42px', height: '42px', borderRadius: '14px', background: 'var(--bg-input)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6366f1', marginBottom: '14px' }}>
                 {f.icon}
               </div>
@@ -837,11 +814,13 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
       </Section>
 
       {/* Testimonials */}
-      <Section id="testimonials" style={{ paddingBottom: '72px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', fontWeight: 700, textAlign: 'center', marginBottom: '28px', letterSpacing: '-0.03em' }}>Trusted by learners who value calm</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
+      <Section id="testimonials">
+        <div className="lp-section-header lp-section-header--center">
+          <h2>Trusted by learners who value calm</h2>
+        </div>
+        <div className="lp-card-grid lp-card-grid--3">
           {testimonials.map((t, i) => (
-            <motion.div key={t.name} {...fadeUp} transition={{ delay: i * 0.08 }} style={{ ...cardBase, padding: '24px' }}>
+            <motion.div key={t.name} {...fadeUp} transition={{ delay: i * 0.08 }} className="lp-card">
               <div style={{ display: 'flex', gap: '3px', marginBottom: '14px' }}>
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} size={14} fill="#fcd34d" color="#fcd34d" style={{ opacity: 0.95 }} />
@@ -860,8 +839,8 @@ const LandingPage = ({ onUpload, isProcessing, theme, toggleTheme, onLogin }) =>
         </div>
       </Section>
 
-      <footer style={{ position: 'relative', zIndex: 1, width: '100%', borderTop: '1px solid var(--border-light)', padding: '36px 24px', textAlign: 'center', background: 'color-mix(in srgb, var(--bg-card) 40%, transparent)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '10px' }}>
+      <footer className="lp-footer">
+        <div className="lp-footer-brand">
           <Brain size={18} style={{ color: '#818cf8' }} />
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--text-main)' }}>BrainMate</span>
         </div>

@@ -45,6 +45,7 @@ function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [routeDirection, setRouteDirection] = useState(1);
   const [screen, setScreen] = useState('landing');
+  const [dashInitialMenu, setDashInitialMenu] = useState('belajar');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -76,6 +77,7 @@ function App() {
       const text = await extractText(uploadedFile);
       setRouteDirection(1);
       setFileText(text);
+      setDashInitialMenu('belajar');
       setFile(uploadedFile);
       setScreen('landing');
     } catch (error) {
@@ -133,10 +135,13 @@ function App() {
               fileText={fileText}
               theme={theme}
               toggleTheme={toggleTheme}
+              initialMenu={dashInitialMenu}
+              initialTab="summary"
               onReset={() => {
                 setRouteDirection(-1);
                 setFile(null);
                 setFileText('');
+                setDashInitialMenu('belajar');
                 setScreen('landing');
               }}
             />

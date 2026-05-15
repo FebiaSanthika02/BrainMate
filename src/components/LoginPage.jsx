@@ -23,23 +23,10 @@ const LoginPage = ({ onBack, onSuccess, theme, toggleTheme }) => {
 
   return (
     <motion.div
+      className="auth-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: 0,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        background: 'var(--bg-main)',
-        fontFamily: 'var(--font-sans)',
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 'clamp(24px, 4vw, 48px)',
-      }}
     >
       <div className="lp-mesh" aria-hidden style={{ position: 'fixed', inset: 0, pointerEvents: 'none' }} />
 
